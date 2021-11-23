@@ -19,9 +19,9 @@ class JetFighterSprite(arcade.Sprite):
         # Angle comes in automatically from the parent class.
         self.thrust = 0
         self.speed = 0
-        self.max_speed = self._constants.MAX_SPEED
+        self._max_speed = self._constants.MAX_SPEED
         self.drag = 0.05
-        self.respawning = 0
+        self._respawning = 0
 
         # Mark that we are respawning.
         self.respawn()
@@ -32,20 +32,26 @@ class JetFighterSprite(arcade.Sprite):
         'respawning' is an invulnerability timer.
         """
         # If we are in the middle of respawning, this is non-zero.
-        self.respawning = 1
+        self._respawning = 1
         self.center_x = self._constants.SCREEN_WIDTH / 2
         self.center_y = self._constants.SCREEN_HEIGHT / 2
         self.angle = 0
+
+    def is_respawning(self):
+        """
+        Returns the respawning status.
+        """
+        return self._respawning
 
     def update(self):
         """
         Update our position and other particulars.
         """
-        if self.respawning:
-            self.respawning += 1
-            self.alpha = self.respawning
-            if self.respawning > 250:
-                self.respawning = 0
+        if self._respawning:
+            self._respawning += 1
+            self.alpha = self._respawning
+            if self._respawning > 250:
+                self._respawning = 0
                 self.alpha = 255
 
         if self.speed > 0:
@@ -59,10 +65,10 @@ class JetFighterSprite(arcade.Sprite):
                 self.speed = 0
 
         self.speed += self.thrust
-        if self.speed > self.max_speed:
-            self.speed = self.max_speed
-        if self.speed < -self.max_speed:
-            self.speed = -self.max_speed
+        if self.speed > self._max_speed:
+            self.speed = self._max_speed
+        if self.speed < -self._max_speed:
+            self.speed = -self._max_speed
 
         self.change_x = -math.sin(math.radians(self.angle)) * self.speed
         self.change_y = math.cos(math.radians(self.angle)) * self.speed

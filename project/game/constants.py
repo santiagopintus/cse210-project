@@ -5,6 +5,22 @@ JET_SCALE = 0.25
 MAX_SPEED = 4
 LIVES = 3
 
+#===== PLAYERS CONTROLS
+# Player 1
+P1_UP = arcade.key.UP
+P1_DOWN = arcade.key.DOWN
+P1_LEFT = arcade.key.LEFT
+P1_RIGHT = arcade.key.RIGHT
+P1_SHOOT = arcade.key.RCTRL
+P1_CONTROLS = [P1_UP, P1_DOWN, P1_LEFT, P1_RIGHT]
+# Player 2
+P2_UP = arcade.key.W
+P2_DOWN = arcade.key.S
+P2_LEFT = arcade.key.A
+P2_RIGHT = arcade.key.D
+P2_SHOOT = arcade.key.SPACE
+P2_CONTROLS = [P2_UP, P2_DOWN, P2_LEFT, P2_RIGHT]
+
 # Bullet
 BULLET_SCALE = 0.5
 BULLET_SPEED = 19
