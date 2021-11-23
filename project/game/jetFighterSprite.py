@@ -2,7 +2,7 @@ import arcade
 import math
 from game import constants
 
-class JetFighter(arcade.Sprite):
+class JetFighterSprite(arcade.Sprite):
     """
     Sprite that represents the jet fighter.
 
