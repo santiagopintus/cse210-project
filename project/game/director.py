@@ -1,12 +1,10 @@
 import arcade
-import math
-import os
 
 from game import constants
 from game.jetFighterSprite import JetFighterSprite
 from game.enemiesSprite import EnemiesSprite
-from game.bulletSprite import BulletSprite
 from game.movePlayers import MovePlayers
+from game.collisionsHandler import CollisionsHandler
 
 class Director(arcade.Window):
     """
@@ -18,21 +16,14 @@ class Director(arcade.Window):
         # Call the parent class and set up the window
         super().__init__(self._constants.SCREEN_WIDTH, self._constants.SCREEN_HEIGHT, self._constants.SCREEN_TITLE)
 
-        file_path = os.path.dirname(os.path.abspath(__file__))
-        os.chdir(file_path)
-
         arcade.set_background_color(self._constants.BACKGROUND_COLOR)
 
         self._scene = None
         self._p1_jet_sprite = None
+        self._p2_jet_sprite = None
         self._enemy_sprite = None
-        self._bullet_sprite = None
         self._move_players = None
-
-        # Sounds
-        self._BULLET_SOUND = None
-        self._ENEMY_DEAD_SOUND = None
-        self._PLAYER_DEAD_SOUND = None
+        self._collisions_handler = None
 
     def setup(self):
         """ Set up the game and initialize the variables. 
@@ -43,30 +34,35 @@ class Director(arcade.Window):
 
         self._scene = arcade.Scene()
 
-        # Inizialize the sounds
-        self._BULLET_SOUND = arcade.load_sound("../assets/sounds/shoot1.wav")
-        self._ENEMY_DEAD_SOUND = arcade.load_sound("../assets/sounds/enemy_boom1.wav")
-        self._PLAYER_DEAD_SOUND = arcade.load_sound("../assets/sounds/boom1.wav")
-        
         # Create the Sprite lists
-        self._scene.add_sprite_list("Player")
-        self._scene.add_sprite_list("Bullets")
+        self._scene.add_sprite_list("Players")
+        self._scene.add_sprite_list("PlayerBullets")
         self._scene.add_sprite_list("Enemies")
+        self._scene.add_sprite_list("EnemyBullets")
 
-        # Set up the player
+        #=============== Create the JETS ===============#
+
+        # Set up the player1
         p1_img = self._constants.PLAYER1_IMG
         jet_scale = self._constants.JET_SCALE
         self._p1_jet_sprite = JetFighterSprite(p1_img, jet_scale)
-        self._scene.add_sprite("Player", self._p1_jet_sprite)
-
-        # Set up the moving players class
-        self._move_players = MovePlayers(self._p1_jet_sprite, self._scene, self._BULLET_SOUND)
+        self._scene.add_sprite("Players", self._p1_jet_sprite)
+        
+        # Set up the player2
+        p2_img = self._constants.PLAYER2_IMG
+        self._p2_jet_sprite = JetFighterSprite(p2_img, jet_scale, 2)
+        self._scene.add_sprite("Players", self._p2_jet_sprite)
 
         # Set up the enemy
         enem_img = self._constants.ENEMY_IMG
         for _ in range(self._constants.STARTING_ENEMIES_COUNT):
             self._enemy_sprite = EnemiesSprite(enem_img, jet_scale)
             self._scene.add_sprite("Enemies", self._enemy_sprite)
+
+        # Set up the moving players class
+        self._move_players = MovePlayers(self._scene)
+        # Set up the collisions handler class
+        self._collisions_handler = CollisionsHandler(self._scene)
 
     def on_draw(self):
         """Render the screen."""
@@ -91,23 +87,7 @@ class Director(arcade.Window):
         """ Move everything """
 
         self._scene.update()
-        
-        #Check for collisions if user is not respawning
-        # (Later we will use a separate class for handling collisions)
-        if not self._p1_jet_sprite.is_respawning():
-            enemies = arcade.check_for_collision_with_list(self._p1_jet_sprite, self._scene["Enemies"])
-            if len(enemies) > 0:
-                for enemy in enemies:
-                    self._p1_jet_sprite.respawn()
-                    arcade.play_sound(self._PLAYER_DEAD_SOUND)
-                    arcade.play_sound(self._ENEMY_DEAD_SOUND)
-                    enemy.remove_from_sprite_lists()
 
-            for bullet in self._scene["Bullets"]:
-                enemies_shooted = arcade.check_for_collision_with_list(bullet, self._scene["Enemies"])
+        # Checks for collisions
+        self._collisions_handler.check_collisions()
 
-                if len(enemies_shooted) > 0:
-                    for enemy in enemies_shooted:
-                        arcade.play_sound(self._ENEMY_DEAD_SOUND)
-                        bullet.remove_from_sprite_lists()
-                        enemy.remove_from_sprite_lists()

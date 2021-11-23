@@ -14,14 +14,18 @@ class MovePlayers():
         constants (Constants): The constants for the game
     """
 
-    def __init__(self, player1, scene, bullet_sound):
+    def __init__(self, scene):
         """ Initializes the class """
-        self._player1 = player1
-        self._player2 = None
         self._scene = scene
+        self._player1 = self._scene["Players"][0]
+        self._player2 = self._scene["Players"][1]
         self._bullet_sprite = BulletSprite
-        self._bullet_sound = bullet_sound
         self._constants = constants
+
+        self._up = [self._constants.P1_UP, self._constants.P2_UP]
+        self._down = [self._constants.P1_DOWN, self._constants.P2_DOWN]
+        self._left = [self._constants.P1_LEFT, self._constants.P2_LEFT]
+        self._right = [self._constants.P1_RIGHT, self._constants.P2_RIGHT]
 
     def check_button_pressed(self, key_pressed):
         """ Depending on the key pressed, moves the player
@@ -29,7 +33,6 @@ class MovePlayers():
         Parameters:
             key_pressed (int): The key pressed
         """
-
         # Move player1
         if key_pressed in self._constants.P1_CONTROLS:
             self.move_player(self._player1, key_pressed)
@@ -62,22 +65,18 @@ class MovePlayers():
             player (Player): The player to move (Instance of jetFighterSprite class)
             key_pressed (int): The key pressed
         """
-        up = [self._constants.P1_UP, self._constants.P2_UP]
-        down = [self._constants.P1_DOWN, self._constants.P2_DOWN]
-        left = [self._constants.P1_LEFT, self._constants.P2_LEFT]
-        right = [self._constants.P1_RIGHT, self._constants.P2_RIGHT]
 
         # Moving Forward
-        if key_pressed in up:
+        if key_pressed in self._up:
             player.thrust = 0.15
         # Going Reverse
-        elif key_pressed in down:
+        elif key_pressed in self._down:
             player.thrust = -.2
         # Rotating left
-        elif key_pressed in left:
+        elif key_pressed in self._left:
             player.change_angle = 3
         # Rotating Right
-        elif key_pressed in right:
+        elif key_pressed in self._right:
             player.change_angle = -3
 
     def player_shoot(self, player):
@@ -92,19 +91,18 @@ class MovePlayers():
             self._bullet_sprite = BulletSprite(
                 self._constants.BULLET_IMG, 
                 self._constants.BULLET_SCALE,
-                player,
-                self._bullet_sound
+                player
             )
-            self._scene.add_sprite("Bullets", self._bullet_sprite)
+            self._scene.add_sprite("PlayerBullets", self._bullet_sprite)
 
-    def stop_player(self, player, symbol):
+    def stop_player(self, player, key_pressed):
         """ Depending on the key released, stops the jet.
         """
-        if symbol == arcade.key.LEFT:
-            player.change_angle = 0
-        elif symbol == arcade.key.RIGHT:
-            player.change_angle = 0
-        elif symbol == arcade.key.UP:
+        if key_pressed in self._up:
             player.thrust = 0
-        elif symbol == arcade.key.DOWN:
+        elif key_pressed in self._down:
             player.thrust = 0
+        elif key_pressed in self._left:
+            player.change_angle = 0
+        elif key_pressed in self._right:
+            player.change_angle = 0

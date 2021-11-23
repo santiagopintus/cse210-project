@@ -8,8 +8,14 @@ class JetFighterSprite(arcade.Sprite):
 
     Inherits from arcade.Sprite class
     """
-    def __init__(self, filename, scale):
-        """ Set up the jet player. """
+    def __init__(self, filename, scale, player_number = 1):
+        """ Sets up the jet player. 
+        
+        Parameters:
+            filename (str): The filename of the image to use for the jet.
+            scale (float): The scale of the jet.
+            player_number (int): The player number. (1 by default)
+        """
         self._constants = constants
 
         # Call the parent Sprite constructor
@@ -22,6 +28,7 @@ class JetFighterSprite(arcade.Sprite):
         self._max_speed = self._constants.MAX_SPEED
         self.drag = 0.05
         self._respawning = 0
+        self._player_number = player_number
 
         # Mark that we are respawning.
         self.respawn()
@@ -33,7 +40,13 @@ class JetFighterSprite(arcade.Sprite):
         """
         # If we are in the middle of respawning, this is non-zero.
         self._respawning = 1
-        self.center_x = self._constants.SCREEN_WIDTH / 2
+        
+        # Depending on the player number, we might start in a different x position.
+        if self._player_number == 1:
+            self.center_x = self._constants.P1_X_POS
+        else:
+            self.center_x = self._constants.P2_X_POS
+
         self.center_y = self._constants.SCREEN_HEIGHT / 2
         self.angle = 0
 

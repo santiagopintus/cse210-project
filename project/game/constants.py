@@ -1,9 +1,29 @@
 import arcade
+import os
 
-# JET Player
+file_path = os.path.dirname(os.path.abspath(__file__))
+os.chdir(file_path)
+
+# Window
+SCREEN_TITLE = "Jet Fighters - Beta Version"
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+BACKGROUND_COLOR = arcade.csscolor.CORNFLOWER_BLUE
+
+# Screen limits
+OFFSCREEN_SPACE = 300
+LEFT_LIMIT = -OFFSCREEN_SPACE
+RIGHT_LIMIT = SCREEN_WIDTH + OFFSCREEN_SPACE
+BOTTOM_LIMIT = -OFFSCREEN_SPACE
+TOP_LIMIT = SCREEN_HEIGHT + OFFSCREEN_SPACE
+
+# JET Players
 JET_SCALE = 0.25
 MAX_SPEED = 4
 LIVES = 3
+P1_X_POS = SCREEN_WIDTH / 3 * 2
+P_Y_POS = SCREEN_HEIGHT / 2
+P2_X_POS = SCREEN_WIDTH / 3
 
 #===== PLAYERS CONTROLS
 # Player 1
@@ -30,21 +50,14 @@ ENEMY_SPEED = 1
 ENEMY_LIVES = 1
 STARTING_ENEMIES_COUNT = 5
 
-# Window
-SCREEN_TITLE = "Jet Fighters - Beta Version"
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-BACKGROUND_COLOR = arcade.csscolor.CORNFLOWER_BLUE
-
-# Screen limits
-OFFSCREEN_SPACE = 300
-LEFT_LIMIT = -OFFSCREEN_SPACE
-RIGHT_LIMIT = SCREEN_WIDTH + OFFSCREEN_SPACE
-BOTTOM_LIMIT = -OFFSCREEN_SPACE
-TOP_LIMIT = SCREEN_HEIGHT + OFFSCREEN_SPACE
-
 #==== ASSETS
 # Images
-PLAYER1_IMG = "../assets/images/player.png"
+PLAYER1_IMG = "../assets/images/player1.png"
+PLAYER2_IMG = "../assets/images/player2.png"
 ENEMY_IMG = "../assets/images/enemy.png"
 BULLET_IMG = "../assets/images/bullet.png"
+
+# Sounds
+BULLET_SOUND = arcade.load_sound("../assets/sounds/shoot1.wav")
+ENEMY_DEAD_SOUND = arcade.load_sound("../assets/sounds/enemy_boom1.wav")
+PLAYER_DEAD_SOUND = arcade.load_sound("../assets/sounds/boom1.wav")
