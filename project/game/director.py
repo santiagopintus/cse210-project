@@ -28,6 +28,11 @@ class Director(arcade.Window):
         self._bullet_sprite = None
         self._turning_sprite = None
 
+        # Sounds
+        self._BULLET_SOUND = None
+        self._ENEMY_DEAD_SOUND = None
+        self._PLAYER_DEAD_SOUND = None
+
     def setup(self):
         """ Set up the game and initialize the variables. 
         
@@ -37,6 +42,11 @@ class Director(arcade.Window):
 
         self._scene = arcade.Scene()
 
+        # Inizialize the sounds
+        self._BULLET_SOUND = arcade.load_sound("../assets/sounds/shoot1.wav")
+        self._ENEMY_DEAD_SOUND = arcade.load_sound("../assets/sounds/enemy_boom1.wav")
+        self._PLAYER_DEAD_SOUND = arcade.load_sound("../assets/sounds/boom1.wav")
+        
         # Create the Sprite lists
         self._scene.add_sprite_list("Player")
         self._scene.add_sprite_list("Bullets")
@@ -46,7 +56,7 @@ class Director(arcade.Window):
         p1_img = self._constants.PLAYER1_IMG
         jet_scale = self._constants.JET_SCALE
         enem_img = self._constants.ENEMY_IMG
-        
+
         self._jet_sprite = JetFighterSprite(p1_img, jet_scale)
         self._scene.add_sprite("Player", self._jet_sprite)
 
@@ -72,7 +82,8 @@ class Director(arcade.Window):
             self._bullet_sprite = BulletSprite(
                 self._constants.BULLET_IMG, 
                 self._constants.BULLET_SCALE,
-                self._jet_sprite
+                self._jet_sprite,
+                self._BULLET_SOUND
             )
             self._scene.add_sprite("Bullets", self._bullet_sprite)
 
@@ -116,8 +127,8 @@ class Director(arcade.Window):
             if len(enemies) > 0:
                 for enemy in enemies:
                     self._jet_sprite.respawn()
-                    arcade.play_sound(self._player_dead_sound)
-                    arcade.play_sound(self._enemy_dead_sound)
+                    arcade.play_sound(self._PLAYER_DEAD_SOUND)
+                    arcade.play_sound(self._ENEMY_DEAD_SOUND)
                     enemy.remove_from_sprite_lists()
 
             for bullet in self._scene["Bullets"]:
@@ -125,5 +136,6 @@ class Director(arcade.Window):
 
                 if len(enemies_shooted) > 0:
                     for enemy in enemies_shooted:
-                        arcade.play_sound(self._enemy_dead_sound)
+                        arcade.play_sound(self._ENEMY_DEAD_SOUND)
+                        bullet.remove_from_sprite_lists()
                         enemy.remove_from_sprite_lists()

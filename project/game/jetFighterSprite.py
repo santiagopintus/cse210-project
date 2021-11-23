@@ -77,11 +77,11 @@ class JetFighterSprite(arcade.Sprite):
         if self.left > self._constants.SCREEN_WIDTH:
             self.right = 0
 
-        if self.bottom < 0:
-            self.top = self._constants.SCREEN_HEIGHT
+        if self.top < 0:
+            self.bottom = self._constants.SCREEN_HEIGHT
 
-        if self.top > self._constants.SCREEN_HEIGHT:
-            self.bottom = 0
+        if self.bottom > self._constants.SCREEN_HEIGHT:
+            self.top = 0
 
         """ Call the parent class. """
         super().update()
