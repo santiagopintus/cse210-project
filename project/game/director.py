@@ -43,20 +43,17 @@ class Director(arcade.Window):
         #=============== Create the JETS ===============#
 
         # Set up the player1
-        p1_img = self._constants.PLAYER1_IMG
-        jet_scale = self._constants.JET_SCALE
-        self._p1_jet_sprite = JetFighterSprite(p1_img, jet_scale)
+        self._p1_jet_sprite = JetFighterSprite(self._constants.PLAYER1_IMG, self._constants.JET_SCALE)
         self._scene.add_sprite("Players", self._p1_jet_sprite)
         
         # Set up the player2
         p2_img = self._constants.PLAYER2_IMG
-        self._p2_jet_sprite = JetFighterSprite(p2_img, jet_scale, 2)
+        self._p2_jet_sprite = JetFighterSprite(p2_img, self._constants.JET_SCALE, 2)
         self._scene.add_sprite("Players", self._p2_jet_sprite)
 
         # Set up the enemy
-        enem_img = self._constants.ENEMY_IMG
         for _ in range(self._constants.STARTING_ENEMIES_COUNT):
-            self._enemy_sprite = EnemiesSprite(enem_img, jet_scale)
+            self._enemy_sprite = EnemiesSprite(self._constants.ENEMY_IMG, self._constants.JET_SCALE)
             self._scene.add_sprite("Enemies", self._enemy_sprite)
 
         # Set up the moving players class
@@ -91,3 +88,7 @@ class Director(arcade.Window):
         # Checks for collisions
         self._collisions_handler.check_collisions()
 
+        # Add new enemies
+        if len(self._scene.get_sprite_list("Enemies")) < self._constants.MAX_ENEMIES_COUNT:
+            self._enemy_sprite = EnemiesSprite(self._constants.ENEMY_IMG, self._constants.JET_SCALE)
+            self._scene.add_sprite("Enemies", self._enemy_sprite)
