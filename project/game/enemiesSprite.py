@@ -2,15 +2,22 @@ import arcade
 import random
 import math
 
+from game.bulletSprite import BulletSprite
 from game import constants
 
 class EnemiesSprite(arcade.Sprite):
     """ Sprite that represents an enemy jet. """
 
-    def __init__(self, image_file_name, scale):
+    def __init__(self, image_file_name, scale, scene):
         super().__init__(image_file_name, scale=scale)
         self._constants = constants
-
+        self._bullet_sprite = BulletSprite
+        self._scene = scene
+        self._enemy_shoot_timer = 0
+        self._shooting_speed = random.randint(
+            self._constants.ENEMY_SHOOT_TIMER_RANGE[0], self._constants.ENEMY_SHOOT_TIMER_RANGE[1]
+        )
+        
         # Set position and speed of the jet
         self.setup_enemy()
 
@@ -48,3 +55,13 @@ class EnemiesSprite(arcade.Sprite):
             self.center_y = self._constants.BOTTOM_LIMIT
         if self.center_y < self._constants.BOTTOM_LIMIT:
             self.center_y = self._constants.TOP_LIMIT
+
+        self._enemy_shoot_timer += 1
+        if self._enemy_shoot_timer > self._shooting_speed:
+            self.shoot_bullet()
+            self._enemy_shoot_timer = 0
+
+    def shoot_bullet(self):
+        """ Create a bullet and add it to the list of bullets. """
+        bullet = self._bullet_sprite(self._constants.BULLET_IMG, self._constants.BULLET_SCALE, self)
+        self._scene.add_sprite(self._constants.E_BULLETS_LIST_NAME, bullet)

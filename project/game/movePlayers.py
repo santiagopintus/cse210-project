@@ -1,5 +1,3 @@
-import arcade
-
 from game.bulletSprite import BulletSprite
 from game import constants
 
@@ -93,7 +91,8 @@ class MovePlayers():
                 self._constants.BULLET_SCALE,
                 player
             )
-            self._scene.add_sprite("PlayerBullets", self._bullet_sprite)
+            self._scene.add_sprite(
+                self._constants.P_BULLETS_LIST_NAME, self._bullet_sprite)
 
     def stop_player(self, player, key_pressed):
         """ Depending on the key released, stops the jet.

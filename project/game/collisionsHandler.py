@@ -14,10 +14,13 @@ class CollisionsHandler():
 
     def check_collisions(self):
         #Check for collisions if user is not respawning
-        # (Later we will use a separate class for handling collisions)
         for player in self._scene["Players"]:
             if not player.is_respawning():
-                enemies = arcade.check_for_collision_with_list(player, self._scene["Enemies"])
+                #Check for collisions with enemies and their bullets
+                enemies = arcade.check_for_collision_with_lists(
+                    player, 
+                    [self._scene[self._constants.ENEMIES_LIST_NAME], self._scene[self._constants.E_BULLETS_LIST_NAME]]
+                    )
                 if len(enemies) > 0:
                     for enemy in enemies:
                         player.respawn()
