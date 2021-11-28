@@ -1,0 +1,52 @@
+import arcade
+
+from game import constants
+
+class GuiInterface():
+    """ Draws the GUI, which is the score and the lives
+    """
+    def __init__(self):
+        """ Initializes the GUI class
+        """
+        self._constants = constants
+
+    def drawGUIS(self, player):
+        """ Draws the GUI for the player
+        """
+        self._draw_player_GUI(player)
+
+    def _draw_player_GUI(self, player):
+        # Draw our score on the screen, scrolling it with the viewport
+        score_text = f"Score: {player.get_score()}"
+        lives_text = f"Lives: {player.get_lives()}"
+
+        if player.get_player_number() == 1:
+            gui_x = self._constants.P1_GUI_X
+        else:
+            gui_x = self._constants.P2_GUI_X
+
+        arcade.draw_text(
+            score_text,
+            gui_x,
+            self._constants.SCORE_HEIGHT,
+            arcade.csscolor.WHITE,
+            18
+        )
+        arcade.draw_text(
+            lives_text,
+            gui_x,
+            self._constants.LIVES_HEIGHT,
+            arcade.csscolor.WHITE,
+            18
+        )
+
+        # # Adding the hearts for the lives
+        # heart_starting_x = 90
+        # heart_gap = 22
+        # for _ in range(self.lives):
+        #     heart = arcade.Sprite("assets/heart.png",
+        #                         self._constants.SMALLEST_OBJECTS)
+        #     heart.center_x = heart_starting_x
+        #     heart.center_y = self._constants.LIVES_HEIGHT + 6
+        #     heart_starting_x += heart_gap
+        #     heart.draw()

@@ -21,6 +21,11 @@ class JetFighterSprite(arcade.Sprite):
         # Call the parent Sprite constructor
         super().__init__(filename, scale)
 
+        self._sprite_name = "Player"
+        # GUI variables
+        self._lives = 3
+        self._score = 0
+
         # Info on where we are going.
         # Angle comes in automatically from the parent class.
         self.thrust = 0
@@ -40,6 +45,8 @@ class JetFighterSprite(arcade.Sprite):
         """
         # If we are in the middle of respawning, this is non-zero.
         self._respawning = 1
+
+        self._lives = 3
         
         # Depending on the player number, we might start in a different x position.
         if self._player_number == 1:
@@ -104,3 +111,41 @@ class JetFighterSprite(arcade.Sprite):
 
         """ Call the parent class. """
         super().update()
+
+    def get_sprite_name(self):
+        """
+        Returns the sprite name.
+        """
+        return self._sprite_name
+
+    def get_player_number(self):
+        """
+        Returns the player number.
+        """
+        return self._player_number
+
+    def get_score(self):
+        """
+        Returns the score.
+        """
+        return self._score
+    
+    def get_lives(self):
+        """
+        Returns the lives.
+        """
+        return self._lives
+
+    def increase_score(self):
+        """
+        Increases the score.
+        """
+        self._score += self._constants.POINTS_PER_KILL
+    
+    def decrease_lives(self):
+        """
+        Decreases the lives.
+        """
+        self._lives -= 1
+        if self._lives < 0:
+            self._lives = 0

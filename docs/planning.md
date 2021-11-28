@@ -11,7 +11,7 @@ The game occurs all the time on the air. There appear several random enemies to 
 
 ### What features will we include? The goal of asking this question is to identify what will and what won't be included. Use this simple feature planning guide to help you.
 
-- Ideally, we will include two players. Player 1 moves using the arrows keys, and player 2 moves using w, a, s, d keys. The player's plane will have enough resistance to resist 3 shots from the enemy. Each enemy the player defeat will give to him a certain amount of points depending on the type of enemy defeated. We will not create different levels. The whole game will be on the same level. 
+- Ideally, we will include two players. Player 1 moves using the arrows keys, and player 2 moves using w, a, s, d keys. The player's plane will have enough resistance to resist 3 shots from the enemy. Each enemy the player defeats will give to him a certain amount of points depending on the type of enemy defeated. We will not create different levels. The whole game will be on the same level. 
 
 ### What is your timeline? The answer to this question is mostly already decided. Just take a minute to review the rest of the course schedule together.
 

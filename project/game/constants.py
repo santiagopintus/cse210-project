@@ -17,6 +17,12 @@ RIGHT_LIMIT = SCREEN_WIDTH + OFFSCREEN_SPACE
 BOTTOM_LIMIT = -OFFSCREEN_SPACE
 TOP_LIMIT = SCREEN_HEIGHT + OFFSCREEN_SPACE
 
+# Coordinates for GUI elements
+SCORE_HEIGHT = SCREEN_HEIGHT - 28
+LIVES_HEIGHT = SCREEN_HEIGHT - 52
+P1_GUI_X = 10
+P2_GUI_X = SCREEN_WIDTH - P1_GUI_X - 400
+
 # JET Players
 JET_SCALE = 0.25
 MAX_SPEED = 4
@@ -47,7 +53,6 @@ P_BULLETS_LIST_NAME = "PlayerBullets"
 ENEMIES_LIST_NAME = "Enemies"
 E_BULLETS_LIST_NAME = "EnemyBullets"
 
-
 # Bullet
 BULLET_SCALE = 0.5
 BULLET_SPEED = 19
@@ -55,6 +60,7 @@ BULLET_SPEED = 19
 # Enemy
 ENEMY_SPEED = 1
 ENEMY_LIVES = 1
+POINTS_PER_KILL = 50
 STARTING_ENEMIES_COUNT = 5
 MAX_ENEMIES_COUNT = 10
 # Amount of fram between enemies shots
@@ -70,4 +76,5 @@ BULLET_IMG = "../assets/images/bullet.png"
 # Sounds
 BULLET_SOUND = arcade.load_sound("../assets/sounds/shoot1.wav")
 ENEMY_DEAD_SOUND = arcade.load_sound("../assets/sounds/enemy_boom1.wav")
+PLAYER_HIT_SOUND = arcade.load_sound("../assets/sounds/enemy_boom2.wav")
 PLAYER_DEAD_SOUND = arcade.load_sound("../assets/sounds/boom1.wav")

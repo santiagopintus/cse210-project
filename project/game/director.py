@@ -6,6 +6,7 @@ from game.jetFighterSprite import JetFighterSprite
 from game.enemiesSprite import EnemiesSprite
 from game.movePlayers import MovePlayers
 from game.collisionsHandler import CollisionsHandler
+from game.guiInterface import GuiInterface
 
 class Director(arcade.Window):
     """
@@ -25,6 +26,7 @@ class Director(arcade.Window):
         self._enemy_sprite = None
         self._move_players = None
         self._collisions_handler = None
+        self._gui_interface = None
 
     def setup(self):
         """ Set up the game and initialize the variables. 
@@ -34,7 +36,7 @@ class Director(arcade.Window):
         """
 
         self._scene = arcade.Scene()
-
+        self._gui_interface = GuiInterface()
         # Create the Sprite lists
         self._scene.add_sprite_list(self._constants.PLAYERS_LIST_NAME)
         self._scene.add_sprite_list(self._constants.ENEMIES_LIST_NAME)
@@ -74,6 +76,9 @@ class Director(arcade.Window):
 
         self._scene.draw()
 
+        self._gui_interface.drawGUIS(self._p1_jet_sprite)
+        self._gui_interface.drawGUIS(self._p2_jet_sprite)
+
     def on_key_press(self, symbol, modifiers):
         """ Called whenever a key is pressed. """
         
@@ -90,6 +95,8 @@ class Director(arcade.Window):
         """ Move everything """
 
         self._scene.update()
+
+        
 
         # Checks for collisions
         self._collisions_handler.check_collisions()

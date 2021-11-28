@@ -19,11 +19,15 @@ class BulletSprite(arcade.Sprite):
             self (class): An instance of the bullet class
             filename (str): The filename of the image to use
             scale (float): The scale of the image
-            jet_sprite (class): An instance of the jetFighterSprite class
         """
         super().__init__(filename, scale)
         
         self._jet_sprite = jet_sprite
+
+        if self._jet_sprite.get_sprite_name() == "Player":
+            self._bullet_id = self._jet_sprite.get_player_number()
+        else:
+            self._bullet_id = 0
         self._constants = constants
 
         self.setup_bullet()
@@ -51,3 +55,12 @@ class BulletSprite(arcade.Sprite):
         self.angle = math.degrees(math.atan2(self.change_y, self.change_x))
         # Plays the bullet sound
         arcade.play_sound(self._constants.BULLET_SOUND)
+
+    def get_bullet_id(self):
+        """
+        Returns the bullet id. Which player fired the bullet.
+
+        Parameters:
+            self (class): An instance of the bullet class
+        """
+        return self._bullet_id

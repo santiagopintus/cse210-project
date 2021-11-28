@@ -23,16 +23,28 @@ class CollisionsHandler():
                     )
                 if len(enemies) > 0:
                     for enemy in enemies:
-                        player.respawn()
-                        arcade.play_sound(self._constants.PLAYER_DEAD_SOUND)
                         arcade.play_sound(self._constants.ENEMY_DEAD_SOUND)
                         enemy.remove_from_sprite_lists()
+                        player.decrease_lives()
+
+                        if player.get_lives() == 0:
+                            player.respawn()
+                            arcade.play_sound(self._constants.PLAYER_DEAD_SOUND)
+                        else:
+                            arcade.play_sound(self._constants.PLAYER_HIT_SOUND)
 
         for bullet in self._scene["PlayerBullets"]:
             enemies_shooted = arcade.check_for_collision_with_list(bullet, self._scene["Enemies"])
 
             if len(enemies_shooted) > 0:
                 for enemy in enemies_shooted:
+                    # Get the player that shot the bullet
+                    player_number = bullet.get_bullet_id()
+                    if player_number > 0:
+                        self._scene[self._constants.PLAYERS_LIST_NAME][player_number - 1].increase_score()
+                        
+                    # Play sound of enemy being shooted
                     arcade.play_sound(self._constants.ENEMY_DEAD_SOUND)
+                    # Remove bullet and enemy
                     bullet.remove_from_sprite_lists()
                     enemy.remove_from_sprite_lists()
