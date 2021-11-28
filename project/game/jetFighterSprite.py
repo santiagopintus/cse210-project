@@ -22,7 +22,9 @@ class JetFighterSprite(arcade.Sprite):
         super().__init__(filename, scale)
 
         self._sprite_name = "Player"
+
         # GUI variables
+        self._hits = 0
         self._lives = 3
         self._score = 0
 
@@ -43,10 +45,9 @@ class JetFighterSprite(arcade.Sprite):
         Called when we die and need to make a new jet.
         'respawning' is an invulnerability timer.
         """
+        self._hits = 0
         # If we are in the middle of respawning, this is non-zero.
         self._respawning = 1
-
-        self._lives = 3
         
         # Depending on the player number, we might start in a different x position.
         if self._player_number == 1:
@@ -108,6 +109,9 @@ class JetFighterSprite(arcade.Sprite):
 
         if self.bottom > self._constants.SCREEN_HEIGHT:
             self.top = 0
+        # When player was damaged 3 times, he dies
+        if self._hits == 3:
+            self.decrease_lives()
 
         """ Call the parent class. """
         super().update()
@@ -142,10 +146,28 @@ class JetFighterSprite(arcade.Sprite):
         """
         self._score += self._constants.POINTS_PER_KILL
     
+    def increase_hit_count(self):
+        """
+        Increases the hit count.
+        """
+        self._hits += 1
+        arcade.play_sound(self._constants.PLAYER_HIT_SOUND)
+
     def decrease_lives(self):
         """
         Decreases the lives.
         """
         self._lives -= 1
+        arcade.play_sound(
+            self._constants.PLAYER_DEAD_SOUND)
+
+        if self._lives == 0:
+            # By now, player will always respawn.
+            # Later they will die and be removed from screen.
+            self.respawn()
+        else:
+            self.respawn()
+        
         if self._lives < 0:
             self._lives = 0
+            
