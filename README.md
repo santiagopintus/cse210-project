@@ -7,7 +7,7 @@
 
 ## Instructions
 ---
-Player 1: - Moves with arrow keys, and shoots with right ctrl key.
+Player 1: - Moves with arrow keys, and shoots with right ctrl key.  
 Player 2: - Moves with "w","a","s","d" keys and shoots with spacebar.
 
 ## Authors
