@@ -16,6 +16,11 @@ LEFT_LIMIT = -OFFSCREEN_SPACE
 RIGHT_LIMIT = SCREEN_WIDTH + OFFSCREEN_SPACE
 BOTTOM_LIMIT = -OFFSCREEN_SPACE
 TOP_LIMIT = SCREEN_HEIGHT + OFFSCREEN_SPACE
+# Game
+WIN_LEVEL = 11
+GAME_WIN = 1 # The number indicates if the player won
+GAME_OVER = 2 # The number indicates if the player loose
+
 
 # Coordinates for GUI elements
 SCORE_HEIGHT = SCREEN_HEIGHT - 28
@@ -52,6 +57,7 @@ PLAYERS_LIST_NAME = "Players"
 P_BULLETS_LIST_NAME = "PlayerBullets"
 ENEMIES_LIST_NAME = "Enemies"
 E_BULLETS_LIST_NAME = "EnemyBullets"
+EXPLOSIONS_LIST_NAME = "Explosions"
 
 # Bullet
 BULLET_SCALE = 0.5
@@ -61,10 +67,14 @@ BULLET_SPEED = 19
 ENEMY_SPEED = 1
 ENEMY_LIVES = 1
 POINTS_PER_KILL = 50
-STARTING_ENEMIES_COUNT = 5
-MAX_ENEMIES_COUNT = 10
+STARTING_ENEMIES_COUNT = 2
+MAX_ENEMIES_COUNT = 8
 # Amount of fram between enemies shots
 ENEMY_SHOOT_TIMER_RANGE = [30, 60]
+
+# Explosion
+EXPLOSION_TEXTURE_COUNT = 16
+EXPLOSION_SCALE = 0.5
 
 #==== ASSETS
 # Images
@@ -72,6 +82,19 @@ PLAYER1_IMG = "../assets/images/player1.png"
 PLAYER2_IMG = "../assets/images/player2.png"
 ENEMY_IMG = "../assets/images/enemy.png"
 BULLET_IMG = "../assets/images/bullet.png"
+
+# Explosion images
+EXPLOSION_IMG_LIST = []
+
+columns = 16
+count = 60
+sprite_width = 256
+sprite_height = 256
+file_name = ":resources:images/spritesheets/explosion.png"
+
+# Load the explosions from a sprite sheet
+EXPLOSION_IMG_LIST = arcade.load_spritesheet(
+    file_name, sprite_width, sprite_height, columns, count)
 
 # Sounds
 BULLET_SOUND = arcade.load_sound("../assets/sounds/shoot1.wav")

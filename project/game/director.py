@@ -1,5 +1,5 @@
 import arcade
-import random
+from time import sleep
 
 from game import constants
 from game.jetFighterSprite import JetFighterSprite
@@ -7,7 +7,9 @@ from game.enemiesSprite import EnemiesSprite
 from game.movePlayers import MovePlayers
 from game.collisionsHandler import CollisionsHandler
 from game.guiInterface import GuiInterface
+# from game.explosionSprite import ExplosionSprite
 
+# Start of Director class
 class Director(arcade.Window):
     """
     Main application class.
@@ -27,6 +29,10 @@ class Director(arcade.Window):
         self._move_players = None
         self._collisions_handler = None
         self._gui_interface = None
+        self._enemies_count = 0
+        self._current_level = 1
+        self._game_over = 0
+        # self._explosion_sprite = None
 
     def setup(self):
         """ Set up the game and initialize the variables. 
@@ -37,23 +43,27 @@ class Director(arcade.Window):
 
         self._scene = arcade.Scene()
         self._gui_interface = GuiInterface()
-        # Create the Sprite lists
+        #--------------- Create the Sprite lists
         self._scene.add_sprite_list(self._constants.PLAYERS_LIST_NAME)
         self._scene.add_sprite_list(self._constants.ENEMIES_LIST_NAME)
         # Bullets of the players
         self._scene.add_sprite_list(self._constants.P_BULLETS_LIST_NAME)
         # Bullets of the enemies
         self._scene.add_sprite_list(self._constants.E_BULLETS_LIST_NAME)
+        # Explosion of the enemies
+        self._scene.add_sprite_list(self._constants.EXPLOSIONS_LIST_NAME)
+        # The following number will increase as the player kills enemies
+        self._enemies_count = self._constants.STARTING_ENEMIES_COUNT
 
         #=============== Create the JETS ===============#
 
         # Set up the player1
-        self._p1_jet_sprite = JetFighterSprite(self._constants.PLAYER1_IMG, self._constants.JET_SCALE)
+        self._p1_jet_sprite = JetFighterSprite(self._constants.PLAYER1_IMG, self._constants.JET_SCALE, self._scene)
         self._scene.add_sprite(self._constants.PLAYERS_LIST_NAME, self._p1_jet_sprite)
         
         # Set up the player2
         p2_img = self._constants.PLAYER2_IMG
-        self._p2_jet_sprite = JetFighterSprite(p2_img, self._constants.JET_SCALE, 2)
+        self._p2_jet_sprite = JetFighterSprite(p2_img, self._constants.JET_SCALE, self._scene, 2)
         self._scene.add_sprite(self._constants.PLAYERS_LIST_NAME, self._p2_jet_sprite)
 
         # Set up the enemy
@@ -78,6 +88,11 @@ class Director(arcade.Window):
 
         self._gui_interface.drawGUIS(self._p1_jet_sprite)
         self._gui_interface.drawGUIS(self._p2_jet_sprite)
+        self._gui_interface.draw_current_level(self._current_level)
+        if self._game_over == 1:
+            self._gui_interface.draw_game_over('You won!')
+        elif self._game_over == 2:
+            self._gui_interface.draw_game_over('Game Over')
 
     def on_key_press(self, symbol, modifiers):
         """ Called whenever a key is pressed. """
@@ -94,17 +109,27 @@ class Director(arcade.Window):
     def on_update(self, delta_time):
         """ Move everything """
 
-        self._scene.update()
+        if self._game_over == 0:
+            
+            # Checks for collisions
+            self._collisions_handler.check_collisions()
+            self._scene.update()
 
-        
-
-        # Checks for collisions
-        self._collisions_handler.check_collisions()
-
-        # Add new enemies when just one is left
-        if len(self._scene.get_sprite_list(self._constants.ENEMIES_LIST_NAME)) < 1:
-            # Add STARTING_ENEMIES_COUNT enemies
-            # We pass the scene in order to allow the enemies to add bullets to the scene
-            for _ in range(self._constants.STARTING_ENEMIES_COUNT):
-                self._enemy_sprite = EnemiesSprite(self._constants.ENEMY_IMG, self._constants.JET_SCALE, self._scene)
-                self._scene.add_sprite(self._constants.ENEMIES_LIST_NAME, self._enemy_sprite)
+            # Keeping track of the enemies count
+            current_enemy_count = len(self._scene.get_sprite_list(self._constants.ENEMIES_LIST_NAME))
+            # Add new enemies when the last is killed
+            if  current_enemy_count < 1:
+                self._current_level += 1
+                # We pass the scene in order to allow the enemies to add bullets to the scene
+                for _ in range(self._enemies_count):
+                    self._enemy_sprite = EnemiesSprite(self._constants.ENEMY_IMG, self._constants.JET_SCALE, self._scene)
+                    self._scene.add_sprite(self._constants.ENEMIES_LIST_NAME, self._enemy_sprite)
+                if self._enemies_count < self._constants.MAX_ENEMIES_COUNT:
+                    self._enemies_count += 1
+            
+            if self._current_level == self._constants.WIN_LEVEL:
+                # Player won the game
+                self._game_over = 1
+        else:
+            sleep(3)
+            self.close()

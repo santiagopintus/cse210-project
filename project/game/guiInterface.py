@@ -50,3 +50,26 @@ class GuiInterface():
         #     heart.center_y = self._constants.LIVES_HEIGHT + 6
         #     heart_starting_x += heart_gap
         #     heart.draw()
+
+    def draw_current_level(self, level_num):
+        """ Draws the current level on the screen
+        """
+        level_text = f"Level: {level_num}"
+        arcade.draw_text(
+            level_text,
+            self._constants.SCREEN_WIDTH / 2 - 50,
+            self._constants.SCORE_HEIGHT - 60,
+            arcade.csscolor.WHITE,
+            24
+        )
+    
+    def draw_game_over(self, final_text):
+        """ Draws the win screen
+        """
+        arcade.draw_text(
+            final_text,
+            self._constants.SCREEN_WIDTH / 2 - 70,
+            self._constants.SCORE_HEIGHT / 2 + 20,
+            arcade.csscolor.BLACK,
+            40
+        )

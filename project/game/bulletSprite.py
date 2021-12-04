@@ -64,3 +64,21 @@ class BulletSprite(arcade.Sprite):
             self (class): An instance of the bullet class
         """
         return self._bullet_id
+
+    def update(self):
+        """
+        Updates the bullet.
+
+        Parameters:
+            self (class): An instance of the bullet class
+        """
+        # Moves the bullet
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+
+        # If the bullet goes off the screen, remove it
+        if self.top > self._constants.TOP_LIMIT or \
+            self.bottom < self._constants.BOTTOM_LIMIT or \
+            self.right < self._constants.LEFT_LIMIT or \
+            self.left > self._constants.RIGHT_LIMIT:
+            self.remove_from_sprite_lists()

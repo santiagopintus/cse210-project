@@ -1,6 +1,7 @@
 import arcade
 import math
 from game import constants
+from game.explosionSprite import ExplosionSprite
 
 class JetFighterSprite(arcade.Sprite):
     """
@@ -8,7 +9,7 @@ class JetFighterSprite(arcade.Sprite):
 
     Inherits from arcade.Sprite class
     """
-    def __init__(self, filename, scale, player_number = 1):
+    def __init__(self, filename, scale, scene, player_number = 1):
         """ Sets up the jet player. 
         
         Parameters:
@@ -36,6 +37,8 @@ class JetFighterSprite(arcade.Sprite):
         self.drag = 0.05
         self._respawning = 0
         self._player_number = player_number
+        self._scene = scene
+        self._explosion_sprite = ExplosionSprite
 
         # Mark that we are respawning.
         self.respawn()
@@ -161,10 +164,20 @@ class JetFighterSprite(arcade.Sprite):
         arcade.play_sound(
             self._constants.PLAYER_DEAD_SOUND)
 
+        # Make explosion
+        self._explosion_sprite = ExplosionSprite(
+            self._constants.EXPLOSION_IMG_LIST
+        )
+        self._scene.add_sprite(
+            self._constants.EXPLOSIONS_LIST_NAME,
+            self._explosion_sprite
+        )
+        self._explosion_sprite.locate_explosion(self)
+
         if self._lives == 0:
             # By now, player will always respawn.
-            # Later they will die and be removed from screen.
-            self.respawn()
+            # When player dies is removed from screen.
+            self.kill()
         else:
             self.respawn()
         
