@@ -33,7 +33,8 @@ class CollisionsHandler():
                         enemy.remove_from_sprite_lists()
                         # The enemy also explodes
                         self._explosion_sprite = ExplosionSprite(
-                            self._constants.EXPLOSION_IMG_LIST
+                            self._constants.EXPLOSION_IMG_LIST,
+                            .4
                         )
                         self._scene.add_sprite(
                             self._constants.EXPLOSIONS_LIST_NAME,

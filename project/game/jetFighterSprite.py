@@ -166,7 +166,8 @@ class JetFighterSprite(arcade.Sprite):
 
         # Make explosion
         self._explosion_sprite = ExplosionSprite(
-            self._constants.EXPLOSION_IMG_LIST
+            self._constants.EXPLOSION_IMG_LIST,
+            1.5 # Scale (Bigger explosion)
         )
         self._scene.add_sprite(
             self._constants.EXPLOSIONS_LIST_NAME,
@@ -177,7 +178,7 @@ class JetFighterSprite(arcade.Sprite):
         if self._lives == 0:
             # By now, player will always respawn.
             # When player dies is removed from screen.
-            self.kill()
+            self.respawn()
         else:
             self.respawn()
         
