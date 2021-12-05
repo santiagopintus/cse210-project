@@ -1,5 +1,6 @@
 import arcade
 from time import sleep
+import random
 
 from game import constants
 from game.jetFighterSprite import JetFighterSprite
@@ -78,6 +79,9 @@ class Director(arcade.Window):
         self._move_players = MovePlayers(self._scene)
         # Set up the collisions handler class
         self._collisions_handler = CollisionsHandler(self._scene)
+        # Plays the backgroun music
+        bg_music = arcade.load_sound(random.choice(self._constants.BACKGROUND_MUSICS))
+        arcade.play_sound(bg_music)
 
     def on_draw(self):
         """Render the screen."""
@@ -128,8 +132,11 @@ class Director(arcade.Window):
                     self._enemies_count += 1
             
             if self._current_level == self._constants.WIN_LEVEL:
-                # Player won the game
+                # Player/s won the game
                 self._game_over = 1
+            elif len(self._scene[self._constants.PLAYERS_LIST_NAME]) < 1:
+                # Players lost the game
+                self._game_over = 2
         else:
             sleep(3)
             self.close()

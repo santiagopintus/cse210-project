@@ -68,7 +68,7 @@ class GuiInterface():
         """
         arcade.draw_text(
             final_text,
-            self._constants.SCREEN_WIDTH / 2 - 70,
+            self._constants.SCREEN_WIDTH / 2 - 90,
             self._constants.SCORE_HEIGHT / 2 + 20,
             arcade.csscolor.BLACK,
             40

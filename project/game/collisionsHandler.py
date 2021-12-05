@@ -1,4 +1,5 @@
 import arcade
+import random
 
 from game import constants
 from game.explosionSprite import ExplosionSprite
@@ -29,7 +30,8 @@ class CollisionsHandler():
                     )
                 if len(enemies) > 0:
                     for enemy in enemies:
-                        arcade.play_sound(self._constants.ENEMY_DEAD_SOUND)
+                        enemy_dead_sound = random.choice(self._constants.ENEMY_DEAD_SOUNDS)
+                        arcade.play_sound(enemy_dead_sound)
                         enemy.remove_from_sprite_lists()
                         # The enemy also explodes
                         self._explosion_sprite = ExplosionSprite(
@@ -52,9 +54,13 @@ class CollisionsHandler():
             if len(enemies_shooted) > 0:
                 for enemy in enemies_shooted:
                     # Get the player that shot the bullet
+                    players_list = self._scene[self._constants.PLAYERS_LIST_NAME]
                     player_number = bullet.get_bullet_id()
                     if player_number > 0:
-                        self._scene[self._constants.PLAYERS_LIST_NAME][player_number - 1].increase_score()
+                        if len(players_list) == 2:
+                            players_list[player_number - 1].increase_score()
+                        else:
+                            players_list[0].increase_score()
 
                     # Make explosion
                     self._explosion_sprite = ExplosionSprite(
@@ -67,7 +73,8 @@ class CollisionsHandler():
                     self._explosion_sprite.locate_explosion(enemy)
 
                     # Play sound of enemy being shooted
-                    arcade.play_sound(self._constants.ENEMY_DEAD_SOUND)
+                    enemy_shooted_sound = random.choice(self._constants.ENEMY_DEAD_SOUNDS)
+                    arcade.play_sound(enemy_shooted_sound)
                     # Remove bullet and enemy
                     bullet.remove_from_sprite_lists()
                     enemy.remove_from_sprite_lists()

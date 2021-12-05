@@ -1,5 +1,6 @@
 import arcade
 import math
+import random
 
 from game import constants
 
@@ -54,7 +55,8 @@ class BulletSprite(arcade.Sprite):
         # Rotates the bullet to the direction it is moving
         self.angle = math.degrees(math.atan2(self.change_y, self.change_x))
         # Plays the bullet sound
-        arcade.play_sound(self._constants.BULLET_SOUND)
+        bullet_sound = random.choice(self._constants.BULLET_SOUNDS)
+        arcade.play_sound(bullet_sound)
 
     def get_bullet_id(self):
         """

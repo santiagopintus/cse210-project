@@ -1,3 +1,4 @@
+import random
 import arcade
 import math
 from game import constants
@@ -161,8 +162,8 @@ class JetFighterSprite(arcade.Sprite):
         Decreases the lives.
         """
         self._lives -= 1
-        arcade.play_sound(
-            self._constants.PLAYER_DEAD_SOUND)
+        player_dead_sound = random.choice(self._constants.PLAYER_DEAD_SOUNDS)
+        arcade.play_sound(player_dead_sound)
 
         # Make explosion
         self._explosion_sprite = ExplosionSprite(
@@ -176,9 +177,8 @@ class JetFighterSprite(arcade.Sprite):
         self._explosion_sprite.locate_explosion(self)
 
         if self._lives == 0:
-            # By now, player will always respawn.
-            # When player dies is removed from screen.
-            self.respawn()
+            # Game over (Remove player from screen)
+            self.kill()
         else:
             self.respawn()
         

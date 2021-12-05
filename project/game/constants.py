@@ -1,5 +1,6 @@
 import arcade
 import os
+import random
 
 file_path = os.path.dirname(os.path.abspath(__file__))
 os.chdir(file_path)
@@ -97,7 +98,11 @@ EXPLOSION_IMG_LIST = arcade.load_spritesheet(
     file_name, sprite_width, sprite_height, columns, count)
 
 # Sounds
-BULLET_SOUND = arcade.load_sound("../assets/sounds/shoot1.wav")
-ENEMY_DEAD_SOUND = arcade.load_sound("../assets/sounds/enemy_boom1.wav")
+BULLET_SOUNDS = [arcade.load_sound("../assets/sounds/shoot1.wav"), arcade.load_sound("../assets/sounds/shoot2.wav"), arcade.load_sound("../assets/sounds/shoot3.wav"), arcade.load_sound("../assets/sounds/shoot4.wav")]
+ENEMY_DEAD_SOUNDS = [arcade.load_sound("../assets/sounds/enemy_boom1.wav"), arcade.load_sound("../assets/sounds/enemy_boom2.wav")]
 PLAYER_HIT_SOUND = arcade.load_sound("../assets/sounds/enemy_boom2.wav")
-PLAYER_DEAD_SOUND = arcade.load_sound("../assets/sounds/boom1.wav")
+PLAYER_DEAD_SOUNDS = [arcade.load_sound("../assets/sounds/boom1.wav"), arcade.load_sound("../assets/sounds/boom2.wav")]
+
+# Background music
+BACKGROUND_MUSICS = ["../assets/background_music/b_music1.mp3", "../assets/background_music/b_music2.mp3", "../assets/background_music/b_music3.mp3", "../assets/background_music/b_music4.mp3", "../assets/background_music/b_music5.mp3"]
+
