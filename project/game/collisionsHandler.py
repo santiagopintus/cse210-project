@@ -30,22 +30,8 @@ class CollisionsHandler():
                     )
                 if len(enemies) > 0:
                     for enemy in enemies:
-                        enemy_dead_sound = random.choice(self._constants.ENEMY_DEAD_SOUNDS)
-                        arcade.play_sound(enemy_dead_sound)
-                        enemy.remove_from_sprite_lists()
-                        # The enemy also explodes
-                        self._explosion_sprite = ExplosionSprite(
-                            self._constants.EXPLOSION_IMG_LIST,
-                            .4
-                        )
-                        self._scene.add_sprite(
-                            self._constants.EXPLOSIONS_LIST_NAME,
-                            self._explosion_sprite
-                        )
-                        self._explosion_sprite.locate_explosion(enemy)
-                        # The player get hit
-                        player.increase_hit_count()
-
+                        self.player_hit_by_enemy(player, enemy)
+                        
         #For each bullet, check for enemies shooted by the player
         for bullet in self._scene[self._constants.P_BULLETS_LIST_NAME]:
             enemies_shooted = arcade.check_for_collision_with_list(bullet, self._scene[self._constants.ENEMIES_LIST_NAME])
@@ -78,3 +64,26 @@ class CollisionsHandler():
                     # Remove bullet and enemy
                     bullet.remove_from_sprite_lists()
                     enemy.remove_from_sprite_lists()
+
+    def player_hit_by_enemy(self, player, enemy):
+        """ Checks if the player is hit by an enemy
+
+            Args:
+                player: The player that is hit
+                enemy: The enemy that hit the player
+        """
+        enemy_dead_sound = random.choice(self._constants.ENEMY_DEAD_SOUNDS)
+        arcade.play_sound(enemy_dead_sound)
+        enemy.remove_from_sprite_lists()
+        # The enemy also explodes
+        self._explosion_sprite = ExplosionSprite(
+            self._constants.EXPLOSION_IMG_LIST,
+            .4
+        )
+        self._scene.add_sprite(
+            self._constants.EXPLOSIONS_LIST_NAME,
+            self._explosion_sprite
+        )
+        self._explosion_sprite.locate_explosion(enemy)
+        # The player get hit
+        player.increase_hit_count()

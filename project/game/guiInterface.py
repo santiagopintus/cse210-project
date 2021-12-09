@@ -40,17 +40,6 @@ class GuiInterface():
             18
         )
 
-        # # Adding the hearts for the lives
-        # heart_starting_x = 90
-        # heart_gap = 22
-        # for _ in range(self.lives):
-        #     heart = arcade.Sprite("assets/heart.png",
-        #                         self._constants.SMALLEST_OBJECTS)
-        #     heart.center_x = heart_starting_x
-        #     heart.center_y = self._constants.LIVES_HEIGHT + 6
-        #     heart_starting_x += heart_gap
-        #     heart.draw()
-
     def draw_current_level(self, level_num):
         """ Draws the current level on the screen
         """

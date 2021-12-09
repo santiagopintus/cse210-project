@@ -8,7 +8,7 @@ from game.enemiesSprite import EnemiesSprite
 from game.movePlayers import MovePlayers
 from game.collisionsHandler import CollisionsHandler
 from game.guiInterface import GuiInterface
-# from game.explosionSprite import ExplosionSprite
+from game.cloudSprite import CloudSprite
 
 # Start of Director class
 class Director(arcade.Window):
@@ -30,10 +30,10 @@ class Director(arcade.Window):
         self._move_players = None
         self._collisions_handler = None
         self._gui_interface = None
+        self._cloud_sprite = None
         self._enemies_count = 0
         self._current_level = 1
         self._game_over = 0
-        # self._explosion_sprite = None
 
     def setup(self):
         """ Set up the game and initialize the variables. 
@@ -44,6 +44,7 @@ class Director(arcade.Window):
 
         self._scene = arcade.Scene()
         self._gui_interface = GuiInterface()
+        self._cloud_sprite = CloudSprite
         #--------------- Create the Sprite lists
         self._scene.add_sprite_list(self._constants.PLAYERS_LIST_NAME)
         self._scene.add_sprite_list(self._constants.ENEMIES_LIST_NAME)
@@ -53,6 +54,9 @@ class Director(arcade.Window):
         self._scene.add_sprite_list(self._constants.E_BULLETS_LIST_NAME)
         # Explosion of the enemies
         self._scene.add_sprite_list(self._constants.EXPLOSIONS_LIST_NAME)
+        # Clouds
+        self._scene.add_sprite_list(self._constants.CLOUDS_LIST_NAME)
+
         # The following number will increase as the player kills enemies
         self._enemies_count = self._constants.STARTING_ENEMIES_COUNT
 
@@ -80,8 +84,9 @@ class Director(arcade.Window):
         # Set up the collisions handler class
         self._collisions_handler = CollisionsHandler(self._scene)
         # Plays the backgroun music
-        bg_music = arcade.load_sound(random.choice(self._constants.BACKGROUND_MUSICS))
-        arcade.play_sound(bg_music)
+        for sound in self._constants.BACKGROUND_SOUNDS:
+            arcade.play_sound(sound)
+        # Plays the game music
 
     def on_draw(self):
         """Render the screen."""
@@ -131,12 +136,22 @@ class Director(arcade.Window):
                 if self._enemies_count < self._constants.MAX_ENEMIES_COUNT:
                     self._enemies_count += 1
             
+            # Spawns clouds
+            if len(self._scene[self._constants.CLOUDS_LIST_NAME]) < self._constants.CLOUDS_COUNT:
+                cloud = self._cloud_sprite()
+                self._scene.add_sprite(self._constants.CLOUDS_LIST_NAME, cloud)
+            for cloud in self._scene[self._constants.CLOUDS_LIST_NAME]:
+                if cloud.center_y > self._constants.SCREEN_HEIGHT:
+                    cloud.kill()
+
+            # Checking for end of loop
             if self._current_level == self._constants.WIN_LEVEL:
                 # Player/s won the game
                 self._game_over = 1
             elif len(self._scene[self._constants.PLAYERS_LIST_NAME]) < 1:
                 # Players lost the game
                 self._game_over = 2
+            
         else:
             sleep(3)
             self.close()

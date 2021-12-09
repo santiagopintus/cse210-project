@@ -5,7 +5,6 @@ from game.director import Director
 
 def main():
     """ Start the game """
-
     Director().setup()
     arcade.run()
 

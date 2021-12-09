@@ -1,6 +1,5 @@
 import arcade
 import os
-import random
 
 file_path = os.path.dirname(os.path.abspath(__file__))
 os.chdir(file_path)
@@ -9,7 +8,8 @@ os.chdir(file_path)
 SCREEN_TITLE = "Jet Fighters - Beta Version"
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-BACKGROUND_COLOR = arcade.csscolor.CORNFLOWER_BLUE
+#RGB bg color 
+BACKGROUND_COLOR = (6, 123, 194)
 
 # Screen limits
 OFFSCREEN_SPACE = 150
@@ -31,6 +31,7 @@ P2_GUI_X = SCREEN_WIDTH - P1_GUI_X - 400
 
 # JET Players
 JET_SCALE = 0.25
+LIVES_SCALE = 0.1
 MAX_SPEED = 4
 LIVES = 3
 P1_X_POS = SCREEN_WIDTH / 3 * 2
@@ -59,10 +60,12 @@ P_BULLETS_LIST_NAME = "PlayerBullets"
 ENEMIES_LIST_NAME = "Enemies"
 E_BULLETS_LIST_NAME = "EnemyBullets"
 EXPLOSIONS_LIST_NAME = "Explosions"
+CLOUDS_LIST_NAME = "Clouds"
 
 # Bullet
 BULLET_SCALE = 0.5
 BULLET_SPEED = 19
+BULLET_SPEED_ENEMY = 6
 
 # Enemy
 ENEMY_SPEED = 1
@@ -70,12 +73,8 @@ ENEMY_LIVES = 1
 POINTS_PER_KILL = 50
 STARTING_ENEMIES_COUNT = 2
 MAX_ENEMIES_COUNT = 8
-# Amount of fram between enemies shots
-ENEMY_SHOOT_TIMER_RANGE = [30, 60]
-
-# Explosion
-EXPLOSION_TEXTURE_COUNT = 16
-EXPLOSION_SCALE = 0.5
+# Amount of fram between enemies shots (The higher, the slower)
+ENEMY_SHOOT_TIMER_RANGE = [45, 80]
 
 #==== ASSETS
 # Images
@@ -83,6 +82,12 @@ PLAYER1_IMG = "../assets/images/player1.png"
 PLAYER2_IMG = "../assets/images/player2.png"
 ENEMY_IMG = "../assets/images/enemy.png"
 BULLET_IMG = "../assets/images/bullet.png"
+CLOUDS_IMG = ["../assets/images/clouds/cloud1.png", "../assets/images/clouds/cloud2.png", "../assets/images/clouds/cloud3.png", "../assets/images/clouds/cloud4.png", "../assets/images/clouds/cloud5.png"]
+
+# Clouds
+CLOUDS_COUNT = 3
+CLOUD_SCALE = [1, 2]
+CLOUD_SPEED = [1, 2]
 
 # Explosion images
 EXPLOSION_IMG_LIST = []
@@ -104,5 +109,8 @@ PLAYER_HIT_SOUND = arcade.load_sound("../assets/sounds/enemy_boom2.wav")
 PLAYER_DEAD_SOUNDS = [arcade.load_sound("../assets/sounds/boom1.wav"), arcade.load_sound("../assets/sounds/boom2.wav")]
 
 # Background music
-BACKGROUND_MUSICS = ["../assets/background_music/b_music1.mp3", "../assets/background_music/b_music2.mp3", "../assets/background_music/b_music3.mp3", "../assets/background_music/b_music4.mp3", "../assets/background_music/b_music5.mp3"]
+BACKGROUND_SOUNDS = [
+    arcade.load_sound("../assets/background_music/b_music.mp3", True), 
+    arcade.load_sound("../assets/background_music/war_fx.mp3", True)
+]
 

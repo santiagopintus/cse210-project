@@ -25,9 +25,11 @@ class BulletSprite(arcade.Sprite):
         
         self._jet_sprite = jet_sprite
 
+        # If the bullet is fired by a player, set the bullet id to 1 or 2
         if self._jet_sprite.get_sprite_name() == "Player":
             self._bullet_id = self._jet_sprite.get_player_number()
         else:
+            # If the bullet is fired by an enemy, set the bullet id to 0
             self._bullet_id = 0
         self._constants = constants
 
@@ -43,11 +45,17 @@ class BulletSprite(arcade.Sprite):
         self._constants = constants
         self.guid = "Bullet"
 
+        # Set bullet speed
+        if self.get_bullet_id() != 0:
+            b_speed = self._constants.BULLET_SPEED
+        else:
+            b_speed = self._constants.BULLET_SPEED_ENEMY
+
         self.change_y = \
-            math.cos(math.radians(self._jet_sprite.angle)) * self._constants.BULLET_SPEED
+            math.cos(math.radians(self._jet_sprite.angle)) * b_speed
         self.change_x = \
             -math.sin(math.radians(self._jet_sprite.angle)) \
-            * self._constants.BULLET_SPEED
+            * b_speed
 
         self.center_x = self._jet_sprite.center_x
         self.center_y = self._jet_sprite.center_y
