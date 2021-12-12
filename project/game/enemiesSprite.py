@@ -25,7 +25,7 @@ class EnemiesSprite(arcade.Sprite):
         self.setup_enemy()
 
     def setup_enemy(self):
-
+        """ Set up the enemy. """
         self.guid = "Enemy"
 
         # Here we make enemies spawn outside the screen
@@ -41,10 +41,10 @@ class EnemiesSprite(arcade.Sprite):
             random.randrange(self._constants.SCREEN_WIDTH, self._constants.RIGHT_LIMIT) # 0 to right limit
             ]
         )
-
+        # Here we make enemies move in a random direction
         self.change_x = random.choice([random.random() * 3, random.random() * -3])
         self.change_y = random.choice([random.random() * 3, random.random() * -3])
-
+        # Here we make enemies' angle match their direction
         self.angle = math.degrees(math.atan2(self.change_y, self.change_x)) - 90
 
     def update(self):

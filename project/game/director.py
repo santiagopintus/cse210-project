@@ -45,8 +45,12 @@ class Director(arcade.Window):
         self._scene = arcade.Scene()
         self._gui_interface = GuiInterface()
         self._cloud_sprite = CloudSprite
-        #--------------- Create the Sprite lists
+        #--------------- Create the Sprite lists ---------------#
+        # Clouds
+        self._scene.add_sprite_list(self._constants.CLOUDS_LIST_NAME)
+        # Players
         self._scene.add_sprite_list(self._constants.PLAYERS_LIST_NAME)
+        # Enemies
         self._scene.add_sprite_list(self._constants.ENEMIES_LIST_NAME)
         # Bullets of the players
         self._scene.add_sprite_list(self._constants.P_BULLETS_LIST_NAME)
@@ -54,8 +58,6 @@ class Director(arcade.Window):
         self._scene.add_sprite_list(self._constants.E_BULLETS_LIST_NAME)
         # Explosion of the enemies
         self._scene.add_sprite_list(self._constants.EXPLOSIONS_LIST_NAME)
-        # Clouds
-        self._scene.add_sprite_list(self._constants.CLOUDS_LIST_NAME)
 
         # The following number will increase as the player kills enemies
         self._enemies_count = self._constants.STARTING_ENEMIES_COUNT
@@ -98,9 +100,9 @@ class Director(arcade.Window):
         self._gui_interface.drawGUIS(self._p1_jet_sprite)
         self._gui_interface.drawGUIS(self._p2_jet_sprite)
         self._gui_interface.draw_current_level(self._current_level)
-        if self._game_over == 1:
+        if self._game_over == self._constants.GAME_WIN:
             self._gui_interface.draw_game_over('You won!')
-        elif self._game_over == 2:
+        elif self._game_over == self._constants.GAME_OVER:
             self._gui_interface.draw_game_over('Game Over')
 
     def on_key_press(self, symbol, modifiers):
@@ -141,16 +143,16 @@ class Director(arcade.Window):
                 cloud = self._cloud_sprite()
                 self._scene.add_sprite(self._constants.CLOUDS_LIST_NAME, cloud)
             for cloud in self._scene[self._constants.CLOUDS_LIST_NAME]:
-                if cloud.center_y > self._constants.SCREEN_HEIGHT:
+                if cloud.bottom > self._constants.SCREEN_HEIGHT:
                     cloud.kill()
 
             # Checking for end of loop
             if self._current_level == self._constants.WIN_LEVEL:
                 # Player/s won the game
-                self._game_over = 1
+                self._game_over = self._constants.GAME_WIN
             elif len(self._scene[self._constants.PLAYERS_LIST_NAME]) < 1:
                 # Players lost the game
-                self._game_over = 2
+                self._game_over = self._constants.GAME_OVER
             
         else:
             sleep(3)

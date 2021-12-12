@@ -9,10 +9,11 @@ SCREEN_TITLE = "Jet Fighters - Beta Version"
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 #RGB bg color 
-BACKGROUND_COLOR = (6, 123, 194)
+# BACKGROUND_COLOR = (6, 123, 194)
+BACKGROUND_COLOR = (0, 100, 171)
 
 # Screen limits
-OFFSCREEN_SPACE = 150
+OFFSCREEN_SPACE = 80
 LEFT_LIMIT = -OFFSCREEN_SPACE
 RIGHT_LIMIT = SCREEN_WIDTH + OFFSCREEN_SPACE
 BOTTOM_LIMIT = -OFFSCREEN_SPACE
@@ -26,6 +27,8 @@ GAME_OVER = 2 # The number indicates if the player loose
 # Coordinates for GUI elements
 SCORE_HEIGHT = SCREEN_HEIGHT - 28
 LIVES_HEIGHT = SCREEN_HEIGHT - 52
+RESPAWNING_HEIGHT = SCREEN_HEIGHT - 76
+CURRENT_LEVEL_HEIGHT = SCREEN_HEIGHT - 180
 P1_GUI_X = 10
 P2_GUI_X = SCREEN_WIDTH - P1_GUI_X - 400
 
@@ -65,7 +68,9 @@ CLOUDS_LIST_NAME = "Clouds"
 # Bullet
 BULLET_SCALE = 0.5
 BULLET_SPEED = 19
-BULLET_SPEED_ENEMY = 6
+BULLET_SPEED_ENEMY = 4
+# Amount of frames between enemies shots (The higher, the slower)
+ENEMY_SHOOT_TIMER_RANGE = [60, 100]
 
 # Enemy
 ENEMY_SPEED = 1
@@ -73,8 +78,6 @@ ENEMY_LIVES = 1
 POINTS_PER_KILL = 50
 STARTING_ENEMIES_COUNT = 2
 MAX_ENEMIES_COUNT = 8
-# Amount of fram between enemies shots (The higher, the slower)
-ENEMY_SHOOT_TIMER_RANGE = [45, 80]
 
 #==== ASSETS
 # Images
@@ -82,7 +85,8 @@ PLAYER1_IMG = "../assets/images/player1.png"
 PLAYER2_IMG = "../assets/images/player2.png"
 ENEMY_IMG = "../assets/images/enemy.png"
 BULLET_IMG = "../assets/images/bullet.png"
-CLOUDS_IMG = ["../assets/images/clouds/cloud1.png", "../assets/images/clouds/cloud2.png", "../assets/images/clouds/cloud3.png", "../assets/images/clouds/cloud4.png", "../assets/images/clouds/cloud5.png"]
+# Adding 7 different clouds
+CLOUDS_IMG = ["../assets/images/clouds/cloud1.png", "../assets/images/clouds/cloud2.png", "../assets/images/clouds/cloud3.png", "../assets/images/clouds/cloud4.png", "../assets/images/clouds/cloud5.png", "../assets/images/clouds/cloud6.png", "../assets/images/clouds/cloud7.png"]
 
 # Clouds
 CLOUDS_COUNT = 3

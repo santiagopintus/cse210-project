@@ -16,9 +16,11 @@ class GuiInterface():
         self._draw_player_GUI(player)
 
     def _draw_player_GUI(self, player):
+        """ Draws the player's score, lives, and if it's respawning """
         # Draw our score on the screen, scrolling it with the viewport
         score_text = f"Score: {player.get_score()}"
         lives_text = f"Lives: {player.get_lives()}"
+        respawning_text = f"Respawning..."
 
         if player.get_player_number() == 1:
             gui_x = self._constants.P1_GUI_X
@@ -39,6 +41,15 @@ class GuiInterface():
             arcade.csscolor.WHITE,
             18
         )
+        # Print if the user is respawning
+        if player.is_respawning():
+            arcade.draw_text(
+                respawning_text,
+                gui_x,
+                self._constants.RESPAWNING_HEIGHT,
+                arcade.csscolor.GREENYELLOW,
+                18
+            )
 
     def draw_current_level(self, level_num):
         """ Draws the current level on the screen
@@ -47,7 +58,7 @@ class GuiInterface():
         arcade.draw_text(
             level_text,
             self._constants.SCREEN_WIDTH / 2 - 50,
-            self._constants.SCORE_HEIGHT - 60,
+            self._constants.CURRENT_LEVEL_HEIGHT,
             arcade.csscolor.WHITE,
             24
         )

@@ -47,8 +47,10 @@ class BulletSprite(arcade.Sprite):
 
         # Set bullet speed
         if self.get_bullet_id() != 0:
+            # Bullet speed for players
             b_speed = self._constants.BULLET_SPEED
         else:
+            # Bullet speed for enemies
             b_speed = self._constants.BULLET_SPEED_ENEMY
 
         self.change_y = \
