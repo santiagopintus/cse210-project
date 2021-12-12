@@ -88,7 +88,6 @@ class Director(arcade.Window):
         # Plays the backgroun music
         for sound in self._constants.BACKGROUND_SOUNDS:
             arcade.play_sound(sound)
-        # Plays the game music
 
     def on_draw(self):
         """Render the screen."""

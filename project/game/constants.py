@@ -5,11 +5,10 @@ file_path = os.path.dirname(os.path.abspath(__file__))
 os.chdir(file_path)
 
 # Window
-SCREEN_TITLE = "Jet Fighters - Beta Version"
+SCREEN_TITLE = "Jet Fighters"
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 #RGB bg color 
-# BACKGROUND_COLOR = (6, 123, 194)
 BACKGROUND_COLOR = (0, 100, 171)
 
 # Screen limits
@@ -114,7 +113,6 @@ PLAYER_DEAD_SOUNDS = [arcade.load_sound("../assets/sounds/boom1.wav"), arcade.lo
 
 # Background music
 BACKGROUND_SOUNDS = [
-    arcade.load_sound("../assets/background_music/b_music.mp3", True), 
-    arcade.load_sound("../assets/background_music/war_fx.mp3", True)
+    arcade.load_sound("../assets/background_music/b_music.mp3", True)
 ]
 
