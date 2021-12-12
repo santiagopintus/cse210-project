@@ -1,7 +1,6 @@
 # Final Project
 
 ## Required Technologies
----
 * Python 3.8.0
 * Arcade
 
@@ -12,7 +11,6 @@ python3 -m pip install arcade
 ```
 
 ## Instructions
----
 Player 1: - Moves with arrow keys, and shoots with right ctrl key.  
 Player 2: - Moves with "w","a","s","d" keys and shoots with spacebar.
 
@@ -21,7 +19,6 @@ Your objective is to destroy your enemies. The black jets are your enemies. You 
 Good luck!
 
 ## Authors
----
 -Billy Estella: bestella@byui.edu 
 -Santiago Pintus: pin21010@byui.edu 
 -Aaron Quarshie: ronyquash@gmail.com 
